@@ -10,7 +10,7 @@
 @property (nonatomic, strong) NSMutableDictionary *callbackIds;
 
 
-- (void)preloadSounds:(CDVInvokedUrlCommand*)command;
+- (void)preloadSound:(CDVInvokedUrlCommand*)command;
 - (void)playSound:(CDVInvokedUrlCommand*)command;
 
 @end
@@ -25,7 +25,7 @@
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
-- (void)preloadSounds:(CDVInvokedUrlCommand*)command {
+- (void)preloadSound:(CDVInvokedUrlCommand*)command {
     NSArray *assetKey = [command.arguments objectAtIndex:0];
     NSArray *assetPath = [command.arguments objectAtIndex:1];
     NSString* basePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"www"];
@@ -63,6 +63,17 @@
                 NSLog(@"Sound not preloaded");
             }
         }];
+    }
+}
+
+- (void)stopSound:(CDVInvokedUrlCommand*)command {
+    NSString *audioKey = [command.arguments objectAtIndex:0];
+    AVAudioPlayer *audioPlayer = self.preloadedSounds[audioKey];
+    if(audioPlayer && [audioPlayer isPlaying]){
+        [audioPlayer stop];
+        NSLog(@"%@ audio stopped successfully", audioKey);
+    }else{
+        NSLog(@"Error in stopping audio");
     }
 }
 
