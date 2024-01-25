@@ -1,2 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-native-audio-player" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"><name>CordovaAudioPlayer</name><js-module name="CordovaAudioPlayer" src="www/CordovaAudioPlayer.js"><clobbers target="cordova.plugins.CordovaAudioPlayer" /></js-module><platform name="ios"><config-file parent="/*" target="config.xml"><feature name="CordovaAudioPlayer"><param name="ios-package" value="CordovaAudioPlayer" /></feature></config-file><source-file src="src/ios/CordovaAudioPlayer.m" /></platform></plugin>
+<plugin id="cordova-native-audio-player" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>CordovaAudioPlayer</name>
+    <js-module name="CordovaAudioPlayer" src="www/CordovaAudioPlayer.js">
+        <clobbers target="cordova.plugins.CordovaAudioPlayer" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="CordovaAudioPlayer">
+                <param name="ios-package" value="CordovaAudioPlayer" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/CordovaAudioPlayer.m" />
+    </platform>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="CordovaAudioPlayer">
+                <param name="android-package" value="cordova-native-audio-player.CordovaAudioPlayer" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/CordovaAudioPlayer.java" target-dir="src/cordova-native-audio-player/CordovaAudioPlayer" />
+    </platform>
+</plugin>
