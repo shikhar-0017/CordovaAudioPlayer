@@ -14,13 +14,4 @@
         </config-file>
         <source-file src="src/ios/CordovaAudioPlayer.m" />
     </platform>
-    <platform name="android">
-        <config-file parent="/*" target="res/xml/config.xml">
-            <feature name="CordovaAudioPlayer">
-                <param name="android-package" value="cordova-native-audio-player.CordovaAudioPlayer" />
-            </feature>
-        </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-        <source-file src="src/android/CordovaAudioPlayer.java" target-dir="src/cordova-native-audio-player/CordovaAudioPlayer" />
-    </platform>
 </plugin>
