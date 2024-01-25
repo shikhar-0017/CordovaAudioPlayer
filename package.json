@@ -1,0 +1,17 @@
+{
+  "name": "cordova-native-audio-player",
+  "version": "1.0.0",
+  "description": "Play native audio",
+  "cordova": {
+    "id": "cordova-native-audio-player",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "Kiddopia (Shikhar shrivastava)",
+  "license": "ISC"
+}
