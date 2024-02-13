@@ -11,3 +11,7 @@ exports.playAudio = function (key, success, error) {
 exports.stopAudio = function (key, success, error) {
     exec(success, error, 'CordovaAudioPlayer', 'stopSound', [key]);
 }
+
+exports.stopAllAudio = function (success, error) {
+    exec(success, error, 'CordovaAudioPlayer', 'stopAllSounds', [null]);
+}

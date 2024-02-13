@@ -26,27 +26,32 @@
 }
 
 - (void)preloadSound:(CDVInvokedUrlCommand*)command {
-    NSArray *assetKey = [command.arguments objectAtIndex:0];
-    NSArray *assetPath = [command.arguments objectAtIndex:1];
+    NSString *assetKey = [command.arguments objectAtIndex:0];
+    NSString *assetPath = [command.arguments objectAtIndex:1];
     NSString* basePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"www"];
     NSString* soundPath = [NSString stringWithFormat:@"%@/%@", basePath, assetPath];
     NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
     
-    [self.commandDelegate runInBackground:^{
-        NSError *error;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:&error];
-        audioPlayer.delegate = self;
-        
-        if (audioPlayer) {
-            [audioPlayer prepareToPlay];
-            [self.preloadedSounds setObject:audioPlayer forKey:assetKey];
-        } else {
-            NSLog(@"Error loading sound: %@", error.localizedDescription);
-        }
-        
+
+    if ([self.preloadedSounds valueForKey:assetKey]) {
+        // Audio already preloaded for this key
+        NSLog(@"Audio already preloaded for key: %@", assetKey);
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
-    }];
-    
+    }else{
+        [self.commandDelegate runInBackground:^{
+            NSError *error;
+            AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:&error];
+            audioPlayer.delegate = self;
+            
+            if (audioPlayer) {
+                [audioPlayer prepareToPlay];
+                [self.preloadedSounds setObject:audioPlayer forKey:assetKey];
+            } else {
+                NSLog(@"Error loading sound for key %@: %@", assetKey, error.localizedDescription);
+            }
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+        }];
+    }
 }
 
 - (void)playSound:(CDVInvokedUrlCommand*)command {
@@ -76,6 +81,17 @@
         NSLog(@"Error in stopping audio");
     }
 }
+
+
+- (void)stopAllSounds:(CDVInvokedUrlCommand*)command {
+    for (AVAudioPlayer *player in self.preloadedSounds) {
+        if ([player isPlaying ]) {
+            [player stop];
+        }
+    }
+    NSLog(@"Finished stopping all sounds");
+}
+
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)isCompleted{
     
