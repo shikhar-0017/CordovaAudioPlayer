@@ -84,12 +84,15 @@
 
 
 - (void)stopAllSounds:(CDVInvokedUrlCommand*)command {
-    for (AVAudioPlayer *player in self.preloadedSounds) {
-        if ([player isPlaying ]) {
-            [player stop];
+    [self.commandDelegate runInBackground:^{
+        NSArray *soundsArr = [self.preloadedSounds allValues];
+        for (AVAudioPlayer *player in soundsArr) {
+            if ([player isPlaying ]) {
+                [player stop];
+            }
         }
-    }
-    NSLog(@"Finished stopping all sounds");
+        NSLog(@"Finished stopping all sounds");
+    }];
 }
 
 
