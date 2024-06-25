@@ -76,7 +76,7 @@
     AVAudioPlayer *audioPlayer = self.preloadedSounds[audioKey];
     if(audioPlayer && [audioPlayer isPlaying]){
         [audioPlayer stop];
-        NSLog(@"%@ audio stopped successfully", audioKey);
+        // NSLog(@"%@ audio stopped successfully", audioKey);
     }else{
         NSLog(@"Error in stopping audio");
     }
@@ -91,7 +91,7 @@
                 [player stop];
             }
         }
-        NSLog(@"Finished stopping all sounds");
+        // NSLog(@"Finished stopping all sounds");
     }];
 }
 
@@ -102,7 +102,7 @@
     NSString *callbackId = [self.callbackIds objectForKey:path];
     
     if (isCompleted && callbackId) {
-        NSLog(@"Finished playing successfully");
+        // NSLog(@"Finished playing successfully");
         // Send success result to Cordova using the stored callbackId
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:callbackId];
         
