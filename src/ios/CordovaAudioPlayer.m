@@ -100,8 +100,8 @@
     
     NSString *path = [[[player url] path] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     NSString *callbackId = [self.callbackIds objectForKey:path];
-    
-    if (isCompleted && callbackId) {
+//    NSLog(@"CallbackId: %@, filePath: %@", callbackId, path);
+    if (isCompleted && ![callbackId  isEqual: @"INVALID"]) {
         // NSLog(@"Finished playing successfully");
         // Send success result to Cordova using the stored callbackId
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:callbackId];
@@ -109,9 +109,7 @@
         // Remove the callback ID for this sound to avoid duplicate responses
         [self.callbackIds removeObjectForKey:path];
     } else {
-        NSLog(@"Finished playing with an error");
-        // Send error result to Cordova using the stored callbackId
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Failed to play sound"] callbackId:callbackId];
+//        No callback provided for the audio;
     }
 }
 
